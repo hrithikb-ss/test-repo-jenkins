@@ -47,7 +47,7 @@ pipeline {
                         [name: 'Authorization', value: 'Basic YWRtaW46MTE1ZWY4NjYwZTRmODBmMmQ2NTY1MTAwYWYxZjMwNDdhNA==']
                     ]
                 )
-                // def crumbJson = readJSON(text: crumbResponse)
+                 def crumbJson = readJSON(text: crumbResponse)
                 // def crumb = crumbJson.crumb  // Extract CSRF token (crumb)
                 // def responseBody = crumbResponse.getContent() // Extract content from the response
                 // def jsonSlurper = new groovy.json.JsonSlurper()
