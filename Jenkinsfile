@@ -56,6 +56,27 @@ pipeline {
                  def crumb="d187c8b5e99a2e6c515f88e7f8e3eb39c902631c85904522fb57843b3e5bbf9a"
                 echo "CSRF Token retrieved: ${crumb}"
 
+                def repoUrl = env.GIT_URL ?: 'Unknown'
+                def branch = env.GIT_BRANCH ?: 'Unknown'
+                def commit = env.GIT_COMMIT ?: 'Unknown'
+                def pullRequest = env.CHANGE_URL ?: 'N/A'
+                def prAuthor = env.CHANGE_AUTHOR ?: 'N/A'
+
+                def requestBody = """
+                    {
+                      "status": "${currentBuild.result ?: 'SUCCESS'}",
+                      "message": "Build ${currentBuild.result ?: 'SUCCESS'}",
+                      "build_url": "${env.BUILD_URL}",
+                      "repo_url": "${repoUrl}",
+                      "branch": "${branch}",
+                      "commit": "${commit}",
+                      "pr_url": "${pullRequest}",
+                      "pr_author": "${prAuthor}",
+                      "job_name": "${env.JOB_NAME}",
+                      "build_number": "${env.BUILD_NUMBER}"
+                    }
+                """
+                                    
                 // Step 2: Trigger the webhook with CSRF token
                 def status = currentBuild.result ?: 'SUCCESS'
                 def response = httpRequest(
@@ -66,14 +87,7 @@ pipeline {
                          [name: 'Jenkins-Crumb', value: crumb],
                          [name: 'Origin', value: 'http://localhost:8070']
                     ],
-                    requestBody: """
-                        {
-                        "status": "${status}", 
-                        "message": "Build ${status}", 
-                        "build_url": "${BUILD_URL}", 
-                        "commit": "${GIT_COMMIT}"
-                    }
-                    """
+                    requestBody:requestBody
                 )
                 echo "Response from webhook: ${response}"
             }
