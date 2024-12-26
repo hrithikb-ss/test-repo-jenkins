@@ -44,7 +44,7 @@ pipeline {
                     httpMode: 'GET',
                     validResponseCodes: '200',
                     customHeaders: [
-                        [name: 'Authorization', value: 'Basic Y29kZWNyYWZ0OjExODBlOTVhMzIxNjMwODZlNzEwMGQ3MjQyY2U1NmE4NTI=']
+                        [name: 'Authorization', value: 'Basic 115ef8660e4f80f2d6565100af1f3047a4']
                     ]
                 )
                 // def crumbJson = readJSON(text: crumbResponse)
@@ -52,8 +52,8 @@ pipeline {
                 // def responseBody = crumbResponse.getContent() // Extract content from the response
                 // def jsonSlurper = new groovy.json.JsonSlurper()
                 // def crumbJson = jsonSlurper.parseText(responseBody)  // Parse the JSON response
-                // def crumb = crumbJson.crumb  // Extract CSRF token (crumb)
-                def crumb="519f956146699c03ff4b37c8ff141315822bf2b06434696cc419a294d5bc8fff"
+                def crumb = crumbJson.crumb  // Extract CSRF token (crumb)
+                // def crumb="519f956146699c03ff4b37c8ff141315822bf2b06434696cc419a294d5bc8fff"
                 echo "CSRF Token retrieved: ${crumb}"
 
                 // Step 2: Trigger the webhook with CSRF token
@@ -64,7 +64,7 @@ pipeline {
                     contentType: 'APPLICATION_JSON',
                     customHeaders: [
                          [name: 'Jenkins-Crumb', value: crumb],
-                         [name: 'Origin', value: 'http://localhost:8090']
+                         [name: 'Origin', value: 'http://localhost:8070']
                     ],
                     requestBody: """
                         {
