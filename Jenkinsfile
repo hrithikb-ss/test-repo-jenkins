@@ -44,7 +44,7 @@ pipeline {
                     httpMode: 'GET',
                     validResponseCodes: '200',
                     customHeaders: [
-                        [name: 'Authorization', value: 'Basic 115ef8660e4f80f2d6565100af1f3047a4']
+                        [name: 'Authorization', value: 'Basic YWRtaW46MTE1ZWY4NjYwZTRmODBmMmQ2NTY1MTAwYWYxZjMwNDdhNA==']
                     ]
                 )
                 // def crumbJson = readJSON(text: crumbResponse)
