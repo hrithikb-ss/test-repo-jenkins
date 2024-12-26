@@ -47,13 +47,13 @@ pipeline {
                         [name: 'Authorization', value: 'Basic YWRtaW46MTE1ZWY4NjYwZTRmODBmMmQ2NTY1MTAwYWYxZjMwNDdhNA==']
                     ]
                 )
-                 def crumbJson = readJSON(text: crumbResponse)
+                // def crumbJson = readJSON(text: crumbResponse)
                 // def crumb = crumbJson.crumb  // Extract CSRF token (crumb)
                 // def responseBody = crumbResponse.getContent() // Extract content from the response
                 // def jsonSlurper = new groovy.json.JsonSlurper()
                 // def crumbJson = jsonSlurper.parseText(responseBody)  // Parse the JSON response
-                def crumb = crumbJson.crumb  // Extract CSRF token (crumb)
-                // def crumb="519f956146699c03ff4b37c8ff141315822bf2b06434696cc419a294d5bc8fff"
+                // def crumb = crumbJson.crumb  // Extract CSRF token (crumb)
+                 def crumb="d187c8b5e99a2e6c515f88e7f8e3eb39c902631c85904522fb57843b3e5bbf9a"
                 echo "CSRF Token retrieved: ${crumb}"
 
                 // Step 2: Trigger the webhook with CSRF token
