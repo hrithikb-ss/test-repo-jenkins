@@ -62,21 +62,40 @@ pipeline {
                 def pullRequest = env.CHANGE_URL ?: 'N/A'
                 def prAuthor = env.CHANGE_AUTHOR ?: 'N/A'
 
+
+                def actionType = ""
+                def sourceBranch = ""
+                def targetBranch = ""
+
+                // Determine the type of build and capture relevant information
+                if (env.CHANGE_ID) {
+                    actionType = "Pull Request"
+                    sourceBranch = env.CHANGE_BRANCH ?: "Unknown" // Source branch of the PR
+                    targetBranch = env.CHANGE_TARGET ?: "Unknown" // Target branch of the PR
+                } else if (env.BRANCH_NAME) {
+                    actionType = "Branch Commit"
+                    sourceBranch = env.BRANCH_NAME 
+                    targetBranch = "" 
+                }
+
                 def requestBody = """
-                    {
-                      "status": "${currentBuild.result ?: 'SUCCESS'}",
-                      "message": "Build ${currentBuild.result ?: 'SUCCESS'}",
-                      "build_url": "${env.BUILD_URL}",
-                      "repo_url": "${repoUrl}",
-                      "branch": "${branch}",
-                      "commit": "${commit}",
-                      "pr_url": "${pullRequest}",
-                      "pr_author": "${prAuthor}",
-                      "job_name": "${env.JOB_NAME}",
-                      "build_number": "${env.BUILD_NUMBER}"
-                    }
+                                    {
+                                    "status": "${currentBuild.result ?: 'SUCCESS'}",
+                                    "message": "Build ${currentBuild.result ?: 'SUCCESS'}",
+                                    "build_url": "${env.BUILD_URL}",
+                                    "repo_url": "${repoUrl}",
+                                    "branch": "${branch}",
+                                    "commit": "${commit}",
+                                    "pr_url": "${pullRequest}",
+                                    "pr_author": "${prAuthor}",
+                                    "job_name": "${env.JOB_NAME}",
+                                    "build_number": "${env.BUILD_NUMBER}",
+                                    "action_type": "${actionType}",
+                                    "source_branch": "${sourceBranch}",
+                                    "target_branch": "${targetBranch}"
+                                    }
                 """
-                                    
+                                                    
                 // Step 2: Trigger the webhook with CSRF token
                 def status = currentBuild.result ?: 'SUCCESS'
                 def response = httpRequest(
