@@ -14,4 +14,8 @@ public class TestRepoJenkinsApplication {
 		System.out.println("Testing app.....");
 	}
 
+	public static void feature3(){
+		System.out.println("Testing app.....");
+	}
+
 }
