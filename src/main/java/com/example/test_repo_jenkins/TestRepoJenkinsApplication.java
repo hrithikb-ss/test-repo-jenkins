@@ -10,4 +10,8 @@ public class TestRepoJenkinsApplication {
 		SpringApplication.run(TestRepoJenkinsApplication.class, args);
 	}
 
+	public static void test(){
+		System.out.println("Testing app....");
+	}
+
 }
