@@ -11,7 +11,7 @@ public class TestRepoJenkinsApplication {
 	}
 
 	public static void test(){
-		System.out.println("Testing app....");
+		System.out.println("Testing app.....");
 	}
 
 }
