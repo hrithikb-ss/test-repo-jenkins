@@ -20,9 +20,9 @@ pipeline {
                 script {
                     echo 'Building the application...'
                     // Simulate build logic here
-                     sh 'chmod +x ./mvnw'
-                    // Run the Maven build
-                    sh './mvnw clean package'
+                    //  sh 'chmod +x ./mvnw'
+                    // // Run the Maven build
+                    // sh './mvnw clean package'
 
                 }
             }
@@ -40,14 +40,14 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging the application...'
-                sh './mvnw package' // Package the application
+                // sh './mvnw package' // Package the application
             }
         }
 
         stage('Archive') {
             steps {
                 echo 'Archiving the build artifacts...'
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                // archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
 
