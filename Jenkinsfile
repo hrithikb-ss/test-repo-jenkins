@@ -20,7 +20,9 @@ pipeline {
                 script {
                     echo 'Building the application...'
                     // Simulate build logic here
-                    sh './mvnw clean package' // Use Maven Wrapper for build
+                     sh 'chmod +x ./mvnw'
+                    // Run the Maven build
+                    sh './mvnw clean package'
 
                 }
             }
