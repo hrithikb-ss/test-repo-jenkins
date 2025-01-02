@@ -53,7 +53,7 @@ pipeline {
 
     post {
         // Trigger CSRF token before any post actions
-        always {
+        success {
             script {
                 // Step 1: Get CSRF token from Jenkins
                 def crumbResponse = httpRequest(
@@ -121,7 +121,7 @@ pipeline {
                                     "action_type": "${actionType}",
                                     "source_branch": "${sourceBranch}",
                                     "target_branch": "${targetBranch}",
-                                    "buildType": "${buildType}
+                                    "buildType": "${buildType}"
                                     }
                 """
                                                     
