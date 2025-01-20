@@ -76,15 +76,15 @@ pipeline {
                 echo "CSRF Token retrieved: ${crumb}"
 
                 def buildType = ""
-                if (fileExists('Dockerfile')) {
-                    buildType = "docker"
-                } else if (fileExists('pom.xml') || fileExists('build.gradle')) {
-                    buildType = "java"
-                } else if (fileExists('*.csproj') || fileExists('*.sln')) {
-                    buildType = "csharp"
-                } else {
-                    buildType = "unknown"
-                }
+                // if (fileExists('Dockerfile')) {
+                //     buildType = "docker"
+                // } else if (fileExists('pom.xml') || fileExists('build.gradle')) {
+                //     buildType = "java"
+                // } else if (fileExists('*.csproj') || fileExists('*.sln')) {
+                //     buildType = "csharp"
+                // } else {
+                //     buildType = "unknown"
+                // }
 
                 def repoUrl = env.GIT_URL ?: 'Unknown'
                 def branch = env.GIT_BRANCH ?: 'Unknown'
