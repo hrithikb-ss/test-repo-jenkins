@@ -20,6 +20,10 @@ pipeline {
                 script {
                     echo 'Building the application...'
                     // Simulate build logic here
+                    //  sh 'chmod +x ./mvnw'
+                    // // Run the Maven build
+                    // sh './mvnw clean package'
+
                 }
             }
         }
@@ -32,11 +36,26 @@ pipeline {
                 }
             }
         }
+
+        stage('Package') {
+            steps {
+                echo 'Packaging the application...'
+                // sh './mvnw package' // Package the application
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                echo 'Archiving the build artifacts...'
+                // archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+
     }
 
     post {
         // Trigger CSRF token before any post actions
-        always {
+        success {
             script {
                 // Step 1: Get CSRF token from Jenkins
                 def crumbResponse = httpRequest(
@@ -55,6 +74,17 @@ pipeline {
                 // def crumb = crumbJson.crumb  // Extract CSRF token (crumb)
                  def crumb="d187c8b5e99a2e6c515f88e7f8e3eb39c902631c85904522fb57843b3e5bbf9a"
                 echo "CSRF Token retrieved: ${crumb}"
+
+                def buildType = ""
+                // if (fileExists('Dockerfile')) {
+                //     buildType = "docker"
+                // } else if (fileExists('pom.xml') || fileExists('build.gradle')) {
+                //     buildType = "java"
+                // } else if (fileExists('*.csproj') || fileExists('*.sln')) {
+                //     buildType = "csharp"
+                // } else {
+                //     buildType = "unknown"
+                // }
 
                 def repoUrl = env.GIT_URL ?: 'Unknown'
                 def branch = env.GIT_BRANCH ?: 'Unknown'
@@ -92,7 +122,8 @@ pipeline {
                                     "build_number": "${env.BUILD_NUMBER}",
                                     "action_type": "${actionType}",
                                     "source_branch": "${sourceBranch}",
-                                    "target_branch": "${targetBranch}"
+                                    "target_branch": "${targetBranch}",
+                                    "buildType": "${buildType}"
                                     }
                 """
                                                     
